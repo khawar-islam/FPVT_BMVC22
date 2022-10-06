@@ -1,31 +1,38 @@
-# Face-Transformer
+# FPVT--Face Pyramid Vision Transformer
 
-This is the code of Face Transformer for Recognition (https://arxiv.org/abs/2103.14803v2). 
-
-Recently there has been great interests of Transformer not only in NLP but also in computer vision. We wonder if transformer can be used in face recognition and whether it is better than CNNs. Therefore, we investigate the performance of Transformer models in face recognition. The models are trained on a large scale face recognition database MS-Celeb-1M and evaluated on several mainstream benchmarks, including LFW, SLLFW, CALFW, CPLFW, TALFW, CFP-FP, AGEDB and IJB-C databases. We demonstrate that Transformer models achieve comparable performance as CNN with similar number of parameters and MACs. 
-
+A novel Face Pyramid Vision Transformer (FPVT) is proposed to learn a discriminative multi-scale facial representations for face recognition and verification. In FPVT, Face Spatial Reduction Attention (FSRA) and Dimensionality Reduction (FDR) layers are employed to reduce the computations by compacting the feature maps. An Improved Patch Embedding (IPE) algorithm is proposed to exploit the benefits of CNNs in ViTs (e.g., shared weights, local context, and receptive fields) to model low-level edges to higher-level semantic primitives. Within FPVT framework, a Convolutional Feed- Forward Network (CFFN) is proposed that extracts locality information to learn low level facial information. The proposed FPVT is evaluated on seven benchmark datasets and compared with ten existing state-of-the-art methods including CNNs, pure ViTs and Convolutional ViTs. Despite fewer parameters, FPVT has demonstrated excellent performance over the compared methods.
 ![arch](https://github.com/khawar-islam/FPVT_BMVC22/blob/main/fpvt.png)
 
 ## Usage Instructions
 
 ### 1. Preparation
-The code is mainly adopted from [Vision Transformer](https://github.com/lucidrains/vit-pytorch), and [DeiT](https://github.com/facebookresearch/deit). In addition to PyTorch and torchvision, install [vit_pytorch](https://github.com/lucidrains/vit-pytorch) by [Phil Wang](https://github.com/lucidrains), and package [timm==0.3.2](https://github.com/rwightman/pytorch-image-models) by [Ross Wightman](https://github.com/rwightman). Sincerely appreciate for their contributions. 
+The code is mainly adopted from [Face Transformer](https://github.com/zhongyy/Face-Transformer), [Vision Transformer](https://github.com/lucidrains/vit-pytorch), and [DeiT](https://github.com/facebookresearch/deit). Please install all dependencies  ```pip3 install -r requirement.txt```
 ```
-pip install vit-pytorch
+pip3 install vit-pytorch
 ```
 ```
-pip install timm==0.3.2
+torch==1.8.1
+torchvision==0.9.0+cu111
+matplotlib==3.3.4
+numpy==1.20.3
+mxnet==1.8.0.post0
+sklearn==0.0
+scikit-learn==0.24.2
+bcolz==1.2.1
+pillow==8.2.0
+ipython==7.22.0
+scipy==1.6.3
+opencv-python==4.5.1.48
+tensorboardx==2.2
+timm==0.3.2
+ptflops==0.6.5
+pyyaml==5.4.1
+einops==0.3.0
+pandas==1.3.1
 ```
 
-Copy the files of fold "copy-to-vit_pytorch-path" to vit-pytorch path.
-```
-.
-├── __init__.py
-├── vit_face.py
-└── vits_face.py
-```
 ### 2. Databases
-You can download the training databases, MS-Celeb-1M (version [ms1m-retinaface](https://github.com/deepinsight/insightface/tree/master/challenges/iccv19-lfr)), and put it in folder 'Data'. 
+You can download the training databases, faceScrub cleaned (version [FaceScrub](https://drive.google.com/file/d/1tr0fDodEk3CRaUhl9SlhC173IiWpGIUn/view?usp=sharing)), and put it in folder 'Data'. 
 
 You can download the testing databases as follows and put them in folder 'eval'. 
 
@@ -37,36 +44,28 @@ You can download the testing databases as follows and put them in folder 'eval'.
 - CFP_FP: [Baidu Netdisk](https://pan.baidu.com/s/1lID0Oe9zE6RvlAdhtBlP1w)(password: 4fem)--refer to [Insightface](https://github.com/deepinsight/insightface/)
 - AGEDB: [Baidu Netdisk](https://pan.baidu.com/s/1vf08K1C5CSF4w0YpF5KEww)(password: rlqf)--refer to [Insightface](https://github.com/deepinsight/insightface/)
 
+## Citation
+If you find this code useful for your research, please cite our work
 
-
-### 3. Train Models
-
-- ViT-P8S8
+```bash
+@InProceedings{Khawar_BMVC22_FPVT,
+      author = {Khawar Islam, Muhammad Zaigham Zaheer, Arif Mahmood},
+      title = {Face Pyramid Vision Transformer},
+      booktitle = {Proceedings of the British Machine Vision Conference},
+      year = {2022}
+}
+@inproceedings{islam2021face,
+      title={Face Recognition Using Shallow Age-Invariant Data},
+      author={Islam, Khawar and Lee, Sujin and Han, Dongil and Moon, Hyeonjoon},
+      booktitle={2021 36th International Conference on Image and Vision Computing New Zealand (IVCNZ)},
+      pages={1--6},
+      year={2021},
+      organization={IEEE}
+}
 ```
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VIT -head CosFace --outdir ./results/ViT-P8S8_ms1m_cosface_s1 --warmup-epochs 1 --lr 3e-4 
+## Contact
+If you find any problem in code and want to ask any question, please send us email
+```khawarr dot islam at gmail dot com```
 
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VIT -head CosFace --outdir ./results/ViT-P8S8_ms1m_cosface_s2 --warmup-epochs 0 --lr 1e-4 -r path_to_model 
-
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VIT -head CosFace --outdir ./results/ViT-P8S8_ms1m_cosface_s3 --warmup-epochs 0 --lr 5e-5 -r path_to_model 
-```
-
-- ViT-P12S8
-```
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VITs -head CosFace --outdir ./results/ViT-P12S8_ms1m_cosface_s1 --warmup-epochs 1 --lr 3e-4 
-
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VITs -head CosFace --outdir ./results/ViT-P12S8_ms1m_cosface_s2 --warmup-epochs 0 --lr 1e-4 -r path_to_model 
-
-CUDA_VISIBLE_DEVICES='0,1,2,3' python3 -u train.py -b 480 -w 0,1,2,3 -d retina -n VITs -head CosFace --outdir ./results/ViT-P12S8_ms1m_cosface_s3 --warmup-epochs 0 --lr 5e-5 -r path_to_model 
-```
-
-### 4. Pretrained Models and Test Models (on LFW, SLLFW, CALFW, CPLFW, TALFW, CFP_FP, AGEDB)
-You can download the following models
-- ViT-P8S8: [Baidu Netdisk](https://pan.baidu.com/s/1ppgQe1GG3oa2-uz2zzL6EQ)(password: spkf)
-- ViT-P12S8: [Baidu Netdisk](https://pan.baidu.com/s/1VrDfvz4SvYVnPcTlHVKAkg)(password: 7caa)
-
-You can test Models
-```
-python test.py --model ./results/ViT-P12S8_ms1m_cosface/Backbone_VITs_Epoch_2_Batch_12000_Time_2021-03-17-04-05_checkpoint.pth --network VIT 
-
-python test.py --model ./results/ViT-P12S8_ms1m_cosface/Backbone_VITs_Epoch_2_Batch_12000_Time_2021-03-17-04-05_checkpoint.pth --network VITs 
-```
+## Acknowledgment
+This implementation of code is heavily borrows from Face Transformer and ViT Pytorch.

@@ -1,0 +1,1 @@
+from vit_pytorch.RVT.rvt import PoolingTransformer

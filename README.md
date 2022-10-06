@@ -1,3 +1,28 @@
+# Face-Transformer
+
+This is the code of Face Transformer for Recognition (https://arxiv.org/abs/2103.14803v2). 
+
+Recently there has been great interests of Transformer not only in NLP but also in computer vision. We wonder if transformer can be used in face recognition and whether it is better than CNNs. Therefore, we investigate the performance of Transformer models in face recognition. The models are trained on a large scale face recognition database MS-Celeb-1M and evaluated on several mainstream benchmarks, including LFW, SLLFW, CALFW, CPLFW, TALFW, CFP-FP, AGEDB and IJB-C databases. We demonstrate that Transformer models achieve comparable performance as CNN with similar number of parameters and MACs. 
+
+![arch](https://github.com/zhongyy/Face-Transformer/blob/main/arch.jpg)
+
+## Usage Instructions
+
+### 1. Preparation
+The code is mainly adopted from [Vision Transformer](https://github.com/lucidrains/vit-pytorch), and [DeiT](https://github.com/facebookresearch/deit). In addition to PyTorch and torchvision, install [vit_pytorch](https://github.com/lucidrains/vit-pytorch) by [Phil Wang](https://github.com/lucidrains), and package [timm==0.3.2](https://github.com/rwightman/pytorch-image-models) by [Ross Wightman](https://github.com/rwightman). Sincerely appreciate for their contributions. 
+```
+pip install vit-pytorch
+```
+```
+pip install timm==0.3.2
+```
+
+Copy the files of fold "copy-to-vit_pytorch-path" to vit-pytorch path.
+```
+.
+├── __init__.py
+├── vit_face.py
+└── vits_face.py
 ```
 ### 2. Databases
 You can download the training databases, MS-Celeb-1M (version [ms1m-retinaface](https://github.com/deepinsight/insightface/tree/master/challenges/iccv19-lfr)), and put it in folder 'Data'. 

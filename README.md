@@ -4,7 +4,7 @@ This is the code of Face Transformer for Recognition (https://arxiv.org/abs/2103
 
 Recently there has been great interests of Transformer not only in NLP but also in computer vision. We wonder if transformer can be used in face recognition and whether it is better than CNNs. Therefore, we investigate the performance of Transformer models in face recognition. The models are trained on a large scale face recognition database MS-Celeb-1M and evaluated on several mainstream benchmarks, including LFW, SLLFW, CALFW, CPLFW, TALFW, CFP-FP, AGEDB and IJB-C databases. We demonstrate that Transformer models achieve comparable performance as CNN with similar number of parameters and MACs. 
 
-![arch](https://github.com/zhongyy/Face-Transformer/blob/main/arch.jpg)
+![arch](https://github.com/khawar-islam/FPVT_BMVC22/blob/main/fpvt.png)
 
 ## Usage Instructions
 
@@ -70,5 +70,3 @@ python test.py --model ./results/ViT-P12S8_ms1m_cosface/Backbone_VITs_Epoch_2_Ba
 
 python test.py --model ./results/ViT-P12S8_ms1m_cosface/Backbone_VITs_Epoch_2_Batch_12000_Time_2021-03-17-04-05_checkpoint.pth --network VITs 
 ```
-
-
